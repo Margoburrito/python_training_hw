@@ -14,13 +14,16 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/group.php")
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//input[@value='Login']").click()
+        self.open_homepage(wd)
+        self.login(wd)
+        self.add_new_contact(wd)
+        self.return_to_home_page(wd)
+        self.logout(wd)
+
+    def add_new_contact(self, wd):
+        # add new contact
         wd.find_element_by_link_text("add new").click()
+        # fill a contact's data
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(u"Александр")
@@ -56,10 +59,25 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("jfjhflf")
+        # submit
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+
+    def return_to_home_page(self, wd):
         wd.find_element_by_link_text("home page").click()
+
+    def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
-    
+
+    def login(self, wd):
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_xpath("//input[@value='Login']").click()
+
+    def open_homepage(self, wd):
+        wd.get("http://localhost/addressbook/group.php")
+
     def is_element_present(self, how, what):
         try: self.wd.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
