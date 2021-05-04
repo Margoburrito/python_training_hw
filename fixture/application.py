@@ -10,7 +10,6 @@ class Application:
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
 
-
     def open_home_paage(self):
         wd = self.wd
         wd.get("http://localhost/addressbook/group.php")
