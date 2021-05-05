@@ -57,12 +57,10 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         wd.find_element_by_name("selected[]")
 
-    def edit(self, contact):
+    def edit_second_contact(self, contact):
         wd = self.app.wd
-        # select contact
-        wd.find_element_by_xpath("(// input[@ name='selected[]'])[9]").click()
         # edit contact
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        wd.find_element_by_xpath("(//img[@alt='Edit'])[2]").click()
         # fill a contact's data
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
