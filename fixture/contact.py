@@ -59,7 +59,7 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
-        wd.find_element_by_name("selected[]")
+        wd.find_element_by_css_selector("div.msgbox")
 
     def edit_contact_worktel(self, new_contact_data):
         wd = self.app.wd
