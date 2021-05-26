@@ -10,8 +10,8 @@ def test_edit_contact_name(app):
     contact = Contact(firstname="Michael")
     contact.id = old_contacts[index].id
     app.contact.edit_contact_name_by_index(index, contact)
+    assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contacts_list()
-    assert len(old_contacts) == len(new_contacts)
     old_contacts[index] = contact
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 

@@ -85,6 +85,7 @@ class ContactHelper:
 
     def select_contact_for_edit_by_index(self, index):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_elements_by_xpath("(//img[@alt='Edit'])")[index].click()
 
     def edit_contact_name(self, index):
@@ -140,6 +141,7 @@ class ContactHelper:
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_elements_by_xpath("(//img[@alt='Details'])")[index].click()
         text = wd.find_element_by_id("content").text
         home_tel = re.search("H: (.*)", text).group(1)
