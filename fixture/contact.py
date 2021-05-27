@@ -152,7 +152,7 @@ class ContactHelper:
         wd.find_elements_by_xpath("(//img[@alt='Details'])")[index].click()
         text = wd.find_element_by_id("content").text
         home_tel = re.search("H: (.*)", text).group(1)
-        work_tel = re.search("W: (.*)", text).group(1)
         mobile = re.search("M: (.*)", text).group(1)
+        work_tel = re.search("W: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home_tel=home_tel, work_tel=work_tel, mobile=mobile, phone2=phone2)

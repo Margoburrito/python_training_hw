@@ -45,7 +45,7 @@ def merge_tels_like_on_home_page(contact):
     return "\n".join(filter(lambda x: x != "",
                             map(lambda x: clear(x),
                                 filter(lambda x: x is not None,
-                                       [contact.home_tel, contact.work_tel, contact.mobile, contact.phone2]))))
+                                       [contact.home_tel, contact.mobile, contact.work_tel, contact.phone2]))))
 
 
 
