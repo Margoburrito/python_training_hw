@@ -26,6 +26,16 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def add_to_group(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_name("to_group").click()
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text("test group")
+        #driver.find_element_by_xpath("//div[@id='content']/form[2]/div[4]/select/option[20]").click()
+        wd.find_element_by_name("add").click()
+        self.return_to_home_page()
+
     def fill_contact_form(self, contact):
         wd = self.app.wd
         self.change_value("firstname", contact.firstname)
@@ -135,7 +145,7 @@ class ContactHelper:
 
     def return_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        wd.find_element_by_link_text("home").click()
 
     def count(self):
         wd = self.app.wd
