@@ -26,15 +26,15 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
-    def add_to_group(self, id):
+    def add_to_group(self, contact, group):
         wd = self.app.wd
         self.open_contacts_page()
-        self.select_contact_by_id(id)
+        self.select_contact_by_id(contact.id)
         wd.find_element_by_name("to_group").click()
-        Select(wd.find_element_by_name("to_group")).select_by_visible_text("test group")
-        #driver.find_element_by_xpath("//div[@id='content']/form[2]/div[4]/select/option[20]").click()
+        Select(wd.find_element_by_name("to_group")).select_by_value(group.id)
         wd.find_element_by_name("add").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def fill_contact_form(self, contact):
         wd = self.app.wd

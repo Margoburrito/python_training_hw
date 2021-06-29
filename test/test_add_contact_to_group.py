@@ -1,17 +1,24 @@
 from model.contact import Contact
 import random
-from fixture.orm import ORMFixture
 from model.group import Group
 
-db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
-
-def test_add_contact_to_group(app, db):
-    if len(app.group.get_contacts_list()) == 0:
+def test_add_contact_to_group(app, db, orm_db):
+    if len(db.get_contacts_list()) == 0:
         app.contact.add_new(Contact(firstname="test"))
-    contacts = app.contact.get_contacts_list()
-    contact = random.choice(contacts)
-    app.contact.add_to_group(contact.id)
-    db_contacts = db.get_contacts_in_group(Group(id="122"))
-    assert contacts == db_contacts
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="test"))
 
+    groups = db.get_group_list()
+    group = random.choice(groups)
+    old_contacts_not_in_groups = orm_db.get_contacts_not_in_group(group)
+    contact = random.choice(old_contacts_not_in_groups)
+    old_contacts_in_group = orm_db.get_contacts_in_group(group=group)
+    app.contact.add_to_group(contact=contact, group=group)
+    new_contacts_not_in_groups = orm_db.get_contacts_not_in_group(group)
+    new_contacts_in_group = orm_db.get_contacts_in_group(group=group)
+
+    assert len(old_contacts_not_in_groups) - 1 == len(new_contacts_not_in_groups)
+    assert len(old_contacts_in_group) + 1 == len(new_contacts_in_group)
+    old_contacts_in_group.append(contact)
+    assert sorted(old_contacts_in_group, key=Contact.id_or_max) == sorted(new_contacts_in_group, key=Contact.id_or_max)
