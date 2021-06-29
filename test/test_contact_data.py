@@ -26,10 +26,8 @@ def clear(s):
 
 
 def merge_emails_like_on_home_page(contact):
-    return "\n".join(filter(lambda x: x != "",
-                     map(lambda x: clear(x), filter(lambda x: x is not None,
-                                                    [contact.email, contact.email2,
-                                                     contact.email3]))))
+    return "\n".join(filter(lambda x: x != "", filter(lambda x: x is not None, [contact.email, contact.email2,
+                                                                                contact.email3])))
 
 
 def merge_tels_like_on_home_page(contact):
