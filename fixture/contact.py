@@ -36,6 +36,21 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_current_group(group=group)
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_name("remove").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def select_current_group(self, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        select = Select(wd.find_element_by_name('group'))
+        select.select_by_value(group.id)
+
     def fill_contact_form(self, contact):
         wd = self.app.wd
         self.change_value("firstname", contact.firstname)
