@@ -1,5 +1,6 @@
 from model.contact import Contact
 import random
+from model.group import Group
 
 
 def test_del_contact_from_group(app, db, orm_db):
@@ -11,12 +12,12 @@ def test_del_contact_from_group(app, db, orm_db):
         app.contact.add_to_group(contact=contact, group=group)
 
     group = random.choice(db.get_groups_with_contacts())
-    old_contacts_in_group = orm_db.get_contacts_in_group(group=group)
+    old_contacts_in_group = orm_db.get_contacts_in_group(group)
     contact = random.choice(old_contacts_in_group)
     old_contacts_not_in_group = orm_db.get_contacts_not_in_group(group=group)
     app.contact.delete_contact_from_group(contact=contact, group=group)
-    new_contacts_in_group = orm_db.get_contacts_in_group(group=group)
-    new_contacts_not_in_group = orm_db.get_contacts_not_in_group(group=group)
+    new_contacts_in_group = orm_db.get_contacts_in_group(Group(id=group.id))
+    new_contacts_not_in_group = orm_db.get_contacts_not_in_group(Group(id=group.id))
 
     assert len(old_contacts_in_group) - 1 == len(new_contacts_in_group)
     assert len(old_contacts_not_in_group) + 1 == len(new_contacts_not_in_group)
