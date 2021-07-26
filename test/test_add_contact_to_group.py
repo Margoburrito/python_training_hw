@@ -15,8 +15,8 @@ def test_add_contact_to_group(app, db, orm_db):
     contact = random.choice(old_contacts_not_in_groups)
     old_contacts_in_group = orm_db.get_contacts_in_group(group=group)
     app.contact.add_to_group(contact=contact, group=group)
-    new_contacts_not_in_groups = orm_db.get_contacts_not_in_group(group)
-    new_contacts_in_group = orm_db.get_contacts_in_group(group=group)
+    new_contacts_not_in_groups = orm_db.get_contacts_not_in_group(Group(id=group.id))
+    new_contacts_in_group = orm_db.get_contacts_in_group(Group(id=group.id))
 
     assert len(old_contacts_not_in_groups) - 1 == len(new_contacts_not_in_groups)
     assert len(old_contacts_in_group) + 1 == len(new_contacts_in_group)
