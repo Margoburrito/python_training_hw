@@ -4,6 +4,9 @@ from model.group import Group
 
 
 def test_del_contact_from_group(app, db, orm_db):
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="test"))
+
     if len(db.get_contacts_list()) == 0 or len(db.get_groups_with_contacts()) == 0:
         groups = db.get_group_list()
         group = random.choice(groups)

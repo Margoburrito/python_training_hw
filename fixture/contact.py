@@ -2,6 +2,8 @@ from selenium.webdriver.support.select import Select
 from model.contact import Contact
 import re
 
+from model.group import Group
+
 
 class ContactHelper:
 
@@ -214,3 +216,13 @@ class ContactHelper:
         work_tel = re.search("W: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home_tel=home_tel, work_tel=work_tel, mobile=mobile, phone2=phone2)
+
+
+def group_without_contacts(orm_db, app, groups, contacts):
+    for group in groups:
+        contact_in_group = orm_db.get_contacts_in_group(Group(id=group.id))
+        if len(contact_in_group) < len(contacts):
+            return group
+        else:
+            app.contact.add_new(Contact(firstname="test"))
+            return group

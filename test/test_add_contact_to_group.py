@@ -1,3 +1,4 @@
+from fixture.contact import group_without_contacts
 from model.contact import Contact
 import random
 from model.group import Group
@@ -12,16 +13,7 @@ def test_add_contact_to_group(app, db, orm_db):
     groups = db.get_group_list()
     contacts = db.get_contacts_list()
 
-    def group_without_contacts(groups, contacts):
-        for group in groups:
-            contact_in_group = orm_db.get_contacts_in_group(Group(id=group.id))
-            if len(contact_in_group) < len(contacts):
-                return group
-            else:
-                app.contact.add_new(Contact(firstname="test"))
-                return group
-
-    group = group_without_contacts(groups, contacts)
+    group = group_without_contacts(orm_db, app, groups, contacts)
     old_contacts_not_in_groups = orm_db.get_contacts_not_in_group(group)
     contact = random.choice(old_contacts_not_in_groups)
     old_contacts_in_group = orm_db.get_contacts_in_group(group=group)
